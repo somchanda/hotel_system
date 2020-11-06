@@ -40,6 +40,9 @@ public class MainForm extends javax.swing.JFrame {
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenu2 = new javax.swing.JMenu();
         jmChangePassword = new javax.swing.JMenuItem();
+        jmManageUser = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        jmUsername = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -99,7 +102,26 @@ public class MainForm extends javax.swing.JFrame {
         });
         jMenu2.add(jmChangePassword);
 
+        jmManageUser.setFont(new java.awt.Font("Oswald", 0, 18)); // NOI18N
+        jmManageUser.setText("Manage user");
+        jmManageUser.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmManageUserActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmManageUser);
+
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setForeground(new java.awt.Color(0, 102, 102));
+        jMenu3.setText("Username: ");
+        jMenu3.setFont(new java.awt.Font("Oswald", 0, 24)); // NOI18N
+        jMenuBar1.add(jMenu3);
+
+        jmUsername.setForeground(new java.awt.Color(0, 0, 102));
+        jmUsername.setText("Username ");
+        jmUsername.setFont(new java.awt.Font("Oswald", 0, 24)); // NOI18N
+        jMenuBar1.add(jmUsername);
 
         setJMenuBar(jMenuBar1);
 
@@ -144,12 +166,24 @@ public class MainForm extends javax.swing.JFrame {
     private void jmChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmChangePasswordActionPerformed
         ChangePassword chp = new ChangePassword();
         chp.setLocationRelativeTo(null);
+        chp.isFromLogin = false;
         chp.setVisible(true);
     }//GEN-LAST:event_jmChangePasswordActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         jLabel2.setVisible(false);
+        jmUsername.setText(My_Connection.username);
+        if(My_Connection.isAdmin() == false){
+            jmManageUser.setVisible(false);
+            jmManageUser.setEnabled(false);
+        }
     }//GEN-LAST:event_formWindowOpened
+
+    private void jmManageUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmManageUserActionPerformed
+        ManageUserForm u = new ManageUserForm();
+        u.setVisible(true);
+        u.setLocationRelativeTo(null);
+    }//GEN-LAST:event_jmManageUserActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,6 +224,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItemClients;
     private javax.swing.JMenuItem jMenuItemReservations;
@@ -198,5 +233,7 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuItem jmChangePassword;
+    private javax.swing.JMenuItem jmManageUser;
+    private javax.swing.JMenu jmUsername;
     // End of variables declaration//GEN-END:variables
 }

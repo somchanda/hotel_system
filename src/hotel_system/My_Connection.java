@@ -32,5 +32,16 @@ public class My_Connection {
         return con;
     }
     
+    public static boolean isAdmin(){
+        User u = new User();
+        u.setId(user_id);
+        return u.isAdmin();
+    }
+    public static boolean isChangePassword(){
+        User u =new User();
+        u.setId(user_id);
+        return u.isChangePassword();
+    }
     public static int user_id;
+    public static String username;
 }

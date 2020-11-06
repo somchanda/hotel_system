@@ -80,6 +80,11 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Password:");
+        jLabel3.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jLabel3FocusGained(evt);
+            }
+        });
 
         txtPassword.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
 
@@ -144,7 +149,7 @@ public class LoginForm extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(685, 416));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 
         PreparedStatement ps;
@@ -165,12 +170,21 @@ public class LoginForm extends javax.swing.JFrame {
                 rs = ps.executeQuery();
                 if (rs.next()) {
                     My_Connection.user_id = rs.getInt("id");
-                    MainForm main=new MainForm();
-                    main.setVisible(true);
-                    main.pack();
-                    main.setLocationRelativeTo(null);
-                    main.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                    this.dispose();
+                    My_Connection.username = rs.getString("username");
+                    if (My_Connection.isChangePassword() == true) {
+                        ChangePassword chp = new ChangePassword();
+                        chp.setLocationRelativeTo(null);
+                        chp.isFromLogin = true;
+                        chp.setVisible(true);
+                        chp.loginForm = this;
+                    } else {
+                        MainForm main = new MainForm();
+                        main.setVisible(true);
+                        main.pack();
+                        main.setLocationRelativeTo(null);
+                        main.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                        this.dispose();
+                    }
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "Wrong username or password", "login error", 2);
                 }
@@ -180,6 +194,10 @@ public class LoginForm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void jLabel3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jLabel3FocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel3FocusGained
 
     /**
      * @param args the command line arguments

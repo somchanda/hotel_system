@@ -5,6 +5,7 @@
  */
 package hotel_system;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -112,7 +113,7 @@ public class ChangePassword extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnSave))
                             .addComponent(txtConfirm, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(166, Short.MAX_VALUE))
+                .addContainerGap(92, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,7 +134,7 @@ public class ChangePassword extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnCancel))
-                .addContainerGap(133, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
@@ -149,7 +150,7 @@ public class ChangePassword extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(291, Short.MAX_VALUE)
+                .addContainerGap(217, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35))
         );
@@ -166,28 +167,43 @@ public class ChangePassword extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public boolean isFromLogin;
+    public JFrame loginForm;
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         User u = new User();
         u.setUserById(My_Connection.user_id);
         String current = new String(txtCurrent.getPassword());
         String newPass = new String(txtNew.getPassword());
         String confirm = new String(txtConfirm.getPassword());
-        if(newPass.equals("")){
+        if (newPass.equals("")) {
             JOptionPane.showMessageDialog(null, "Your new password cannot empty", "Invalide password", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if(!current.equals(u.getPassword())){
+
+        if (!current.equals(u.getPassword())) {
             JOptionPane.showMessageDialog(null, "Your current password is Invalide", "Invalide password", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        if(!newPass.equals(confirm)){
+        if (!newPass.equals(confirm)) {
             JOptionPane.showMessageDialog(null, "Your confirm password is not match", "Invalide password", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        u.changePassword(confirm);
-        this.dispose();
+        if (u.changePassword(confirm) != 0) {
+            if (this.isFromLogin == true) {
+                MainForm main = new MainForm();
+                main.setVisible(true);
+                main.pack();
+                main.setLocationRelativeTo(null);
+                main.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                this.loginForm.dispose();
+                this.dispose();
+            } else {
+                this.dispose();
+            }
+        } else {
+            this.dispose();
+        }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
